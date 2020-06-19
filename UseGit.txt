@@ -1,0 +1,73 @@
+#如何将Linux本地git仓库中的代码上传到远程git仓库。
+#生成:id_rsa.pub文件:
+ssh-keygen -t rsa -C "1339329314@qq.com"
+[root@localhost ~]# ssh-keygen -t rsa -C "1339329314@qq.com"
+Generating public/private rsa key pair.
+Enter file in which to save the key (/root/.ssh/id_rsa): 
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /root/.ssh/id_rsa.
+Your public key has been saved in /root/.ssh/id_rsa.pub.
+The key fingerprint is:
+SHA256:3Ob/mgGRhiB+Vq6PY/aOVDeDlnt8F8rM4IusarJgkGA 1339329314@qq.com
+The key's randomart image is:
++---[RSA 2048]----+
+|    . . .        |
+|   . . + . .     |
+|.E  . o o +      |
+|o.   o o = .     |
+|o     . S O   .  |
+|.      = B O . . |
+|..    * o = B .  |
+|... .+ = o + +   |
+|  .+..oo= . +o.  |
++----[SHA256]-----+
+
+ssh -v git@github.com
+debug1: No more authentication methods to try.
+Permission denied (publickey).
+
+[root@localhost ~]# ssh-agent -s
+SSH_AUTH_SOCK=/tmp/ssh-PT44s5ocvT0d/agent.2398; export SSH_AUTH_SOCK;
+SSH_AGENT_PID=2399; export SSH_AGENT_PID;
+echo Agent pid 2399;
+
+[root@localhost gitspace]# ssh-add ~/.ssh/id_rsa
+Could not open a connection to your authentication agent.
+[root@localhost gitspace]# ssh-agent bash
+[root@localhost gitspace]# ssh-add ~/.ssh/id_rsa
+Identity added: /root/.ssh/id_rsa (/root/.ssh/id_rsa)
+
+配置服务端
+打开你刚刚生成的id_rsa.pub，将里面的内容复制，进入你的github账号，在settings下，SSH and GPG keys下new SSH key，然后将id_rsa.pub里的内容复制到Key中，完成后Add SSH Key。
+
+[root@localhost .ssh]# cat id_rsa.pub 
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCsy22YlSvXnR2qWcVb9cdRGM6Al+BCVXYSiRa3A/0NvZizFNfV5vQ7sJC+dJnoOMhySCB+lxGFdmznS0Rl3vKAlDrUszRwF6
+MUFIFotXOaQvHpB3I3YNp6V7/rRZd0wBa67H2W+H+/8wUuAZkgGJ9AnF9fp+DIa02XbH2e/1oMsZAoYMFIBDmwY4deUjhNqwnia4fra4y4OhmDJkgFMNJwNn8T3j/TE6kX0yIXWW6eec+4whEX2sdPY9jL4LaGLeKQdhuLoOfe6pDET5X1uwlmLoScfpcHJLElkr0k3kyl8TX75RLjOJuu5cLwa2qGkKwJYDmKcAAo3iWq0R7WMZkN 1339329314@qq.com[root@localhost .ssh]# pwd
+/root/.ssh
+
+
+git命令：
+git init
+git config --global user.name "xiaoyongzhuo"
+git config --global user.email "1339329314@qq.com"
+git add test.txt
+git status 
+git commit -m "第一次提交"
+git commit -m "first commit"
+git remote add origin git@github.com:xiaoyongzhuo/gitspace.git
+git push -u origin master
+
+
+
+…or create a new repository on the command line
+echo "# PythonBasics" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin git@github.com:xiaoyongzhuo/PythonBasics.git
+git push -u origin master
+                
+…or push an existing repository from the command line
+git remote add origin git@github.com:xiaoyongzhuo/PythonBasics.git
+git push -u origin master
