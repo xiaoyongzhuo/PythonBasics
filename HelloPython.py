@@ -15,3 +15,14 @@ print(' '.join([a,b,c]))
 for i in range(1,10):
     print(i,end='')
 print()
+#while
+i = 1
+while i < 10:
+    print(i,end='')
+    i+=1
+print()
+#99 ChengFaBiao
+for i in range(1,10):
+    for j in range(1,10):
+        print('%d*%d=%d'%(i,j,i*j),end=' ')
+    print()
